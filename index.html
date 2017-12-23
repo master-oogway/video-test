@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+    <style>
+      .movie-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .movie {
+        width: 100%;
+        height: 100%;
+      }
+      .ui-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .buttons {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+      }
+      .button-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+      .control-panel {
+        background-color: white;
+        text-align: center;
+        margin-bottom: 1rem;
+        padding: 1rem 1rem 0rem;
+      }
+      .playback-rate-text-input {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="movie-layer">
+      <video class="movie js-movie">
+        <source class="js-movie-src" src="https://s3.amazonaws.com/fnwell-misc/SantAgata-de-Goti-Virtual-Treadmill-Walk.mp4" type="video/mp4">
+        <!-- <source class="js-movie-src" src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4"> -->
+      </video>
+    </div>
+    <div class="ui-layer">
+      <div class="buttons">
+        <div class="button-column">
+          <div class="control-panel">
+            <p class="movie-source-label">Try a different video url:</p>
+            <input type="text" class="movie-source-text-input js-movie-source-text-input" placeholder="ex. https://www.youtube.com/embed/XGSy3_Czz8k">
+            <p class="playback-rate-label">Playback Rate:</p>
+            <input type="text" class="playback-rate-text-input js-playback-rate-text-input">
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // set up variables
+      const movie = document.querySelector('.js-movie');
+      const movieSrc = document.querySelector('.js-movie-src');
+      const playbackDisplay = document.querySelector('.js-playback-display');
+      const playbackTextInput = document.querySelector('.js-playback-rate-text-input');
+      const movieSourceTextInput = document.querySelector('.js-movie-source-text-input');
+      const init = () => {
+        movie.pause();
+        movie.load();
+        movie.play();
+        playbackTextInput.value = movie.playbackRate;
+        movieSourceTextInput.value = movieSrc.src;
+      };
+
+      // initialize demo
+      init();
+
+      // bind any event handlers
+      playbackTextInput.addEventListener('keyup', (e) => {
+        // if enter key is pressed
+        if (e.keyCode == 13) {
+          movie.playbackRate = e.target.value;
+        }
+      });
+      movieSourceTextInput.addEventListener('keyup', (e) => {
+        // if enter key is pressed
+        if (e.keyCode == 13) {
+          movieSrc.src = e.target.value;
+          init();
+        }
+      });
+    </script>
+  </body>
+</html>
